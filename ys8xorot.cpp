@@ -12,6 +12,16 @@ int main (int argc, char* argv[])
 	std::string fname_in(argv[1]);
 	std::string fname_out = fname_in + ".decrypt";
 	
+	std::size_t found_slash = fname_in.rfind("\\");
+	std::size_t found_dot = fname_in.rfind(".");
+
+	if (found_dot != std::string::npos &&
+		(found_slash == std::string::npos || found_slash < found_dot)
+		)
+	{
+		fname_out = fname_in.substr(0, found_dot) + ".decrypt" + fname_in.substr(found_dot);
+	}
+		
 	std::ifstream f_in (fname_in, std::fstream::binary);
 	if (f_in) {
 		std::cout << "Reading from " << fname_in << std::endl;
